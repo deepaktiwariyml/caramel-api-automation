@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+
+ <listeners>
+        <listener class-name="com.api.reporting.ExtentTestNGITestListener" />
+ </listeners>
+
+    <test name="KP Sanity Test">
+
+    <classes>
+          <class name="com.api.testscripts.TS_KP_BFF_SignOnTest"></class>
+          <class name="com.api.testscripts.TS_KP_BFF_CareGapTest"></class>
+    </classes>
+
+    </test>
+
+
+</suite>

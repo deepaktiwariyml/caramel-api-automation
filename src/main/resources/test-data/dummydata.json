@@ -1,0 +1,47 @@
+[
+  {
+    "description": "Create Offer as a Buyer",
+    "initiatedBy": "buyer",
+    "offerCount": 0,
+    "activeTxnCount": 1,
+    "prevTxnCount": 0,
+    "buyerState": "transport_done",
+    "sellerState": "none",
+    "buyerEmail": "deepak.tiwari+testautomation@ymedialabs.com",
+    "buyerPassword": "Testing@123",
+    "sellerEmail": "deepak.tiwari+testautomation1@ymedialabs.com",
+    "sellerPassword": "Testing@123",
+    "price": 50000,
+    "zipCode": "78216",
+    "isAuction": false,
+    "vehicleDetails": {
+      "color": "Gray",
+      "year" : 2014,
+      "make" : "Ferrari",
+      "model" : "FF",
+      "mileage" : "30155"
+      }
+  },
+  {
+    "description": "Create Offer as a Seller",
+    "offerCount": 0,
+    "activeTxnCount": 1,
+    "prevTxnCount": 0,
+    "initiatedBy": "seller",
+    "buyerEmail": "deepak.tiwari+testautomation@ymedialabs.com",
+    "buyerPassword": "Testing@123",
+    "sellerEmail": "deepak.tiwari+testautomation1@ymedialabs.com",
+    "sellerPassword": "Testing@123",
+    "price": "31500",
+    "zipCode": "85054",
+    "requiredStatus": "none",
+    "isAuction": false,
+    "vehicleDetails": {
+      "color": "Silver",
+      "year" : 2018,
+      "make" : "Tesla",
+      "model" : "Model 3",
+      "mileage" : "84650"
+    }
+  }
+]

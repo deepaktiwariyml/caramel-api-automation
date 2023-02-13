@@ -1,0 +1,149 @@
+[
+  {
+    "actorName": "Mike",
+    "description": "the Caramel admin",
+    "lastName": "QA admin",
+    "phoneNumber": "3074417113",
+    "email": "testcarameluser+admin_user@gmail.com",
+    "password": "Testuser@123"
+  },
+  {
+    "actorName": "Ricardo",
+    "description": "a user who wants to Sign Up",
+    "lastName": "Larrahondo",
+    "phoneNumber": "2235550309",
+    "email": "ricardo.genoy+1@ymedialabs.com",
+    "password": "Car4me$l98",
+    "hasTransactions": false
+  },
+  {
+    "actorName": "Forrest",
+    "description": "a user who has multiple offers, active transactions and previous transactions",
+    "lastName": "Anderson",
+    "phoneNumber": "2642255954",
+    "email": "test_user_automation_1+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Shon",
+    "description": "a user who has multiple transactions as seller or buyer with different statuses",
+    "lastName": "Rempel",
+    "phoneNumber": "9174199906",
+    "email": "test_user_automation_2+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Gonzalo",
+    "description": "a user who wants to Sign In",
+    "lastName": "Grimes",
+    "phoneNumber": "3110659563",
+    "email": "test_user_automation_3+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Suzanna",
+    "description": "a user who has multiple active transactions",
+    "lastName": "Hilpert",
+    "phoneNumber": "7017241342",
+    "email": "test_user_automation_4+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Cleveland",
+    "description": "a user who has multiple active transactions",
+    "lastName": "Bartoletti",
+    "phoneNumber": "2407378281",
+    "email": "test_user_automation_5+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Zada",
+    "description": "a user who only has offers",
+    "lastName": "Koch",
+    "phoneNumber": "3253239695",
+    "email": "test_user_automation_6+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Jeffry",
+    "description": "a user who has just signed up",
+    "lastName": "McClure",
+    "phoneNumber": "1621041299",
+    "email": "test_user_automation_7+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Vi",
+    "description": "a user who only has previous transactions",
+    "lastName": "Kerluke",
+    "phoneNumber": "2762266197",
+    "email": "test_user_automation_8+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Paulina",
+    "description": "a user who wants to change her password",
+    "lastName": "Breitenberg",
+    "phoneNumber": "0738079372",
+    "email": "test_user_automation_9+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Eulah",
+    "description": "a registered user without transactions or offers",
+    "lastName": "Larkin",
+    "phoneNumber": "2546977385",
+    "email": "test_user_automation_10+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Hellen",
+    "description": "a user who has 1 offer as buyer, 1 active transaction and 1 previous transaction",
+    "lastName": "Jakubowski",
+    "phoneNumber": "9231225099",
+    "email": "test_user_automation_11+autoverify@ymedialabs.com",
+    "password": "Testing@123",
+    "hasTransactions": true
+  },
+  {
+    "actorName": "Hans",
+    "description": "a user who has 1 offer as seller, 1 active transaction and 1 previous transaction",
+    "lastName": "McCullough",
+    "phoneNumber": "9929020359",
+    "email": "test_user_automation_12+autoverify@ymedialabs.com",
+    "password": "Testing@123",
+    "hasTransactions": true
+  },
+  {
+    "actorName": "Shannon",
+    "description": "a user who wants to Sign In",
+    "lastName": "Spinka",
+    "email": "test_user_automation_13+autoverify@ymedialabs.com",
+    "password": "Testing@123",
+    "phoneNumber": "2440371623"
+  },
+  {
+    "actorName": "Laverne",
+    "description": "a user who only has 1 active transaction",
+    "lastName": "Hauck",
+    "phoneNumber": "3535806200",
+    "email": "test_user_automation_14+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Rhett",
+    "description": "a user who wants to Sign In",
+    "lastName": "Lemke",
+    "phoneNumber": "6750736052",
+    "email": "test_user_automation_15+autoverify@ymedialabs.com",
+    "password": "Testing@123"
+  },
+  {
+    "actorName": "Balamurugan",
+    "description": "a user who wants to complete inspection",
+    "lastName": "bala",
+    "phoneNumber": "8095270970",
+    "email": "testuser14+autoverify@ymedialabs.com",
+    "password": "Testuser@123"
+  }
+]
