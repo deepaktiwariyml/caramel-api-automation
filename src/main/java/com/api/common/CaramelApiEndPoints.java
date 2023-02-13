@@ -15,4 +15,7 @@ public class CaramelApiEndPoints {
     public static final String CAR_GET_PREV_TXNS="/transactions?type=previous";
     public static final String CAR_DEL_CANCEL_TXN="/transactions/:txnId";
     public static final String CAR_PATCH_UPDATE_TXN="/transactions/:txnId";
+
+    public static final String CAR_DEL_CANCEL_DEAL="/deals/:dealId";
+    public static final String CAR_PATCH_UPDATE_DEAL="/deals/:dealId";
 }

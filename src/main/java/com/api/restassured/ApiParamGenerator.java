@@ -89,4 +89,11 @@ public class ApiParamGenerator {
         return updateStateParams;
     }
 
+    public static JSONObject updateDealParams(Long askingPrice,boolean isAuction) throws JSONException {
+        JSONObject updateDealParams = new JSONObject();
+        updateDealParams.put("askingPrice", askingPrice);
+        updateDealParams.put("isAuction", isAuction);
+        return updateDealParams;
+    }
+
 }

@@ -2,7 +2,6 @@ package com.api.testscripts;
 
 import com.api.common.CaramelApiEndPoints;
 import com.api.common.CommonUtil;
-import com.api.common.TransactionStatus;
 import com.api.restassured.ApiParamGenerator;
 import io.restassured.response.Response;
 import org.json.JSONArray;
@@ -55,48 +54,32 @@ public class TS_CARAMEL_SignOnTest extends TS_CARAMEL_BaseTest {
     public void readDummyData(JSONObject testData) throws Exception {
         //"vin": "5YJ3E1EA3JF012877",
         JSONObject data = (JSONObject) testData;
-        int offerCount=data.getInt("offerCount");
-        int activeTxnCount=data.getInt("activeTxnCount");
-        int prevTxnCount=data.getInt("prevTxnCount");
-        String initiatedBy=data.getString("initiatedBy");
+        currentTestCase.info(CommonUtil.getStringForReport("Test Data Requirement -<b>" + data.getString("description") + "</b>"));
+        int offerCount = data.getInt("offerCount");
+        int activeTxnCount = data.getInt("activeTxnCount");
+        int prevTxnCount = data.getInt("prevTxnCount");
+        String initiatedBy = data.getString("initiatedBy");
         //for offers , check if user(buyer/seller) has req no of offers , if more delete , if less create it
         //for Active Txn , check if user(buyer/seller) has req no of Active Txn , if more delete , if less create it(By creating offer and accept)
         //for Prev Txn , check if user(buyer/seller) has req no of Pre Txn , if more delete , if less create it (By Creating active Txn and mark it as Completed)
-         switch (initiatedBy.toLowerCase()){
-             case "buyer":
-                 String buyerToken=caramelUtil.signIn(data.getString("buyerEmail"),data.getString("buyerPassword"),true);
-                  if (offerCount !=0){
-                      checkOffers(testData,buyerToken);
-                  }
-                 if (activeTxnCount !=0){
-                     checkActiveTxn(testData,buyerToken);
+        switch (initiatedBy.toLowerCase()) {
+            case "buyer":
+                String buyerToken = caramelUtil.signIn(data.getString("buyerEmail"), data.getString("buyerPassword"), true);
+                checkOffers(testData, buyerToken);
+                checkActiveTxn(testData, buyerToken);
+                checkPrevTxn(testData, buyerToken);
 
-
-                 }
-                 if (prevTxnCount !=0){
-                     checkPrevTxn(testData,buyerToken);
-                 }
-
-
-                 break;
-             case "seller":
-//                 String sellerToken=caramelUtil.signIn(data.getString("sellerEmail"),data.getString("sellerPassword"),true);
-//                 if (offerCount !=0){
-//                     checkOffers(testData,sellerToken);
-//                 }
-//                 if (activeTxnCount !=0){
-//                     checkActiveTxn(testData,sellerToken);
-//                 }
-//                 if (prevTxnCount !=0){
-//                     checkPrevTxn(testData,sellerToken);
-//                 }
-                 break;
-             default:
-                 throw new Exception("InitiatedBy Field Required in the test data with values buyer/seller.");
-         }
-
-
-
+                break;
+            case "seller":
+                String sellerToken = caramelUtil.signIn(data.getString("sellerEmail"), data.getString("sellerPassword"), true);
+                checkOffers(testData, sellerToken);
+                checkActiveTxn(testData, sellerToken);
+                checkPrevTxn(testData, sellerToken);
+                break;
+            default:
+                throw new Exception("InitiatedBy Field Required in the test data with values buyer/seller.");
+        }
+        checkTxnState(testData);
     }
 
     @DataProvider
@@ -125,29 +108,32 @@ public class TS_CARAMEL_SignOnTest extends TS_CARAMEL_BaseTest {
     }
 
 
-    void checkOffers(JSONObject testData,String token) throws JSONException {
-        int diff=0;
-        int reqOfferCount=testData.getInt("offerCount");
-        String initiatedBy=testData.getString("initiatedBy");
-        JSONArray offersArr=caramelUtil.getOffersForUser(token,false);
-        if (offersArr.length() == reqOfferCount){
+    void checkOffers(JSONObject testData, String token) throws JSONException {
+        int diff = 0;
+        int reqOfferCount = testData.getInt("offerCount");
+        String initiatedBy = testData.getString("initiatedBy");
+        JSONArray offersArr = caramelUtil.getOffersForUser(token, false);
+        if (offersArr.length() == reqOfferCount) {
             this.currentTestCase.info("user already has required No of offers");
             return;
-        }
-        else
-         diff=reqOfferCount-offersArr.length();
-         int loopLength=Math.abs(diff);
+        } else
+            diff = reqOfferCount - offersArr.length();
+        int loopLength = Math.abs(diff);
         switch (initiatedBy.toLowerCase()) {
             case "buyer":
-                for (int i=0;i<loopLength;i++){
-                    if (diff>0)
-                        caramelUtil.createOfferAsBuyer(testData,token,true);
+                for (int i = 0; i < loopLength; i++) {
+                    if (diff > 0)
+                        caramelUtil.createOfferAsBuyer(testData, token, true);
+                    else
+                        caramelUtil.deleteOffer(token, offersArr.getJSONObject(i));
                 }
                 break;
             case "seller":
-                for (int i=0;i<loopLength;i++){
-                    if (diff>0)
-                    caramelUtil.createOfferAsSeller(testData,token,true);
+                for (int i = 0; i < loopLength; i++) {
+                    if (diff > 0)
+                        caramelUtil.createOfferAsSeller(testData, token, true);
+                    else
+                        caramelUtil.deleteOffer(token, offersArr.getJSONObject(i));
                 }
                 break;
         }
@@ -155,40 +141,36 @@ public class TS_CARAMEL_SignOnTest extends TS_CARAMEL_BaseTest {
     }
 
 
-
-    void checkActiveTxn(JSONObject testData,String token) throws Exception {
-        int diff=0;
-        int reqActiveTxnCount=testData.getInt("activeTxnCount");
-        String initiatedBy=testData.getString("initiatedBy");
-        String buyerState=testData.getString("buyerState");
-        JSONArray activeTxnArr=caramelUtil.getActiveTxnsForUser(token,false);
-        if (activeTxnArr.length() == reqActiveTxnCount){
+    void checkActiveTxn(JSONObject testData, String token) throws Exception {
+        int diff = 0;
+        int reqActiveTxnCount = testData.getInt("activeTxnCount");
+        String initiatedBy = testData.getString("initiatedBy");
+        JSONArray activeTxnArr = caramelUtil.getActiveTxnsForUser(token, false);
+        if (activeTxnArr.length() == reqActiveTxnCount) {
             this.currentTestCase.info("user already has required No of Active Txn");
-            caramelUtil.changeTxnStateForBuyer(token,activeTxnArr.getJSONObject(0).getString("transactionId"), buyerState,true);
             return;
         }
-        diff=reqActiveTxnCount-activeTxnArr.length();
+        diff = reqActiveTxnCount - activeTxnArr.length();
 
-        int loopLength=Math.abs(diff);
+        int loopLength = Math.abs(diff);
         switch (initiatedBy.toLowerCase()) {
             case "buyer":
-                for (int i=0;i<loopLength;i++){
-                    activeTxnArr=caramelUtil.getActiveTxnsForUser(token,false);
-                    if (diff>0)
-                        caramelUtil.createOfferAsBuyerAndAccept(testData,true);
+                for (int i = 0; i < loopLength; i++) {
+                    activeTxnArr = caramelUtil.getActiveTxnsForUser(token, false);
+                    if (diff > 0)
+                        caramelUtil.createOfferAsBuyerAndAccept(testData, true);
                     else
-                        caramelUtil.cancelTransaction(token,activeTxnArr.getJSONObject(0).getString("transactionId"),false);
+                        caramelUtil.cancelTransaction(token, activeTxnArr.getJSONObject(0).getString("transactionId"), false);
                 }
-                activeTxnArr=caramelUtil.getActiveTxnsForUser(token,true);
-                caramelUtil.changeTxnStateForBuyer(token,activeTxnArr.getJSONObject(0).getString("transactionId"), buyerState,true);
+                activeTxnArr = caramelUtil.getActiveTxnsForUser(token, true);
                 break;
             case "seller":
-                for (int i=0;i<loopLength;i++){
-                    activeTxnArr=caramelUtil.getActiveTxnsForUser(token,false);
-                    if (diff>0)
-                        caramelUtil.createDealAsSellerAndAccept(testData,true);
+                for (int i = 0; i < loopLength; i++) {
+                    activeTxnArr = caramelUtil.getActiveTxnsForUser(token, false);
+                    if (diff > 0)
+                        caramelUtil.createDealAsSellerAndAccept(testData, true);
                     else
-                        caramelUtil.cancelTransaction(token,activeTxnArr.getJSONObject(i).getString("transactionId"),false);
+                        caramelUtil.cancelTransaction(token, activeTxnArr.getJSONObject(i).getString("transactionId"), false);
                 }
                 break;
         }
@@ -196,42 +178,75 @@ public class TS_CARAMEL_SignOnTest extends TS_CARAMEL_BaseTest {
     }
 
 
-    void checkPrevTxn(JSONObject testData,String token) throws Exception {
+    void checkPrevTxn(JSONObject testData, String token) throws Exception {
 
-        int diff=0;
-        int reqPrevTxnCount=testData.getInt("prevTxnCount");
-        String initiatedBy=testData.getString("initiatedBy");
-        JSONArray prevTxnArr=caramelUtil.getPreviousTxnForUser(token,false);
-        JSONArray activeTxnArr=caramelUtil.getActiveTxnsForUser(token,false);
-        if (prevTxnArr.length() == reqPrevTxnCount){
+        int diff = 0;
+        int reqPrevTxnCount = testData.getInt("prevTxnCount");
+        String initiatedBy = testData.getString("initiatedBy");
+        JSONArray prevTxnArr = caramelUtil.getPreviousTxnForUser(token, false);
+        JSONArray activeTxnArr = caramelUtil.getActiveTxnsForUser(token, false);
+        if (prevTxnArr.length() == reqPrevTxnCount) {
             this.currentTestCase.info("user already has required No of Previous Txn");
             return;
         }
-         diff=reqPrevTxnCount-prevTxnArr.length();
-         int loopLength=Math.abs(diff);
+        diff = reqPrevTxnCount - prevTxnArr.length();
+        int loopLength = Math.abs(diff);
         switch (initiatedBy.toLowerCase()) {
             case "buyer":
-                for (int i=0;i<loopLength;i++){
-                    prevTxnArr=caramelUtil.getPreviousTxnForUser(token,false);
-                    if (diff>0) {
-                        JSONObject response=caramelUtil.createOfferAsBuyerAndAccept(testData, true);
-                        caramelUtil.changeActiveToPreviousTxn(response.getString("transactionId"),token,false);
-                     }
-                    else
-                        caramelUtil.cancelTransaction(token,prevTxnArr.getJSONObject(0).getString("transactionId"),false);
+                for (int i = 0; i < loopLength; i++) {
+                    prevTxnArr = caramelUtil.getPreviousTxnForUser(token, false);
+                    if (diff > 0) {
+                        JSONObject response = caramelUtil.createOfferAsBuyerAndAccept(testData, true);
+                        caramelUtil.changeActiveToPreviousTxn(response.getString("transactionId"), token, false);
+                    } else
+                        caramelUtil.cancelTransaction(token, prevTxnArr.getJSONObject(0).getString("transactionId"), false);
                 }
                 break;
             case "seller":
-                for (int i=0;i<loopLength;i++){
-                    prevTxnArr=caramelUtil.getPreviousTxnForUser(token,false);
-                    if (diff>0) {
+                for (int i = 0; i < loopLength; i++) {
+                    prevTxnArr = caramelUtil.getPreviousTxnForUser(token, false);
+                    if (diff > 0) {
                         JSONObject response = caramelUtil.createDealAsSellerAndAccept(testData, true);
-                        caramelUtil.changeActiveToPreviousTxn(response.getString("transactionId"),token,false);
-                    }
-                    else
-                        caramelUtil.cancelTransaction(token,activeTxnArr.getJSONObject(0).getString("transactionId"),false);
+                        caramelUtil.changeActiveToPreviousTxn(response.getString("transactionId"), token, false);
+                    } else
+                        caramelUtil.cancelTransaction(token, activeTxnArr.getJSONObject(0).getString("transactionId"), false);
                 }
                 break;
+        }
+    }
+
+    private void checkTxnState(JSONObject testData){
+
+
+        JSONArray activeTxnArr = null;
+        try {
+            if (testData.has("buyerState")) {
+                this.currentTestCase.info(CommonUtil.getStringForReport("Checking Transaction State for Buyer"));
+                String token=caramelUtil.signIn(testData.getString("buyerEmail"),testData.getString("buyerPassword"),false);
+                activeTxnArr = caramelUtil.getActiveTxnsForUser(token, false);
+                if (activeTxnArr.length() ==0) {
+                    return;
+                }
+                caramelUtil.changeTxnStateForBuyer(token, activeTxnArr.getJSONObject(0).getString("transactionId"), testData.getString("buyerState"), true);
+                this.currentTestCase.info("Buyer State Changed to "+testData.getString("buyerState"));
+            }
+            else if (testData.has("sellerState")){
+                this.currentTestCase.info(CommonUtil.getStringForReport("Checking Transaction State for Seller"));
+                String token=caramelUtil.signIn(testData.getString("sellerEmail"),testData.getString("sellerPassword"),false);
+                activeTxnArr = caramelUtil.getActiveTxnsForUser(token, false);
+                if (activeTxnArr.length() ==0) {
+                    return;
+                }
+                caramelUtil.changeTxnStateForBuyer(token, activeTxnArr.getJSONObject(0).getString("transactionId"), testData.getString("buyerState"), true);
+                this.currentTestCase.info("Seller State Changed to "+testData.getString("sellerState"));
+            }
+            else {
+                this.currentTestCase.info("No Test Data for Buyer and seller Txn State");
+            }
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
     }

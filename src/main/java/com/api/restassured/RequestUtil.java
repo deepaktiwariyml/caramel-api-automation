@@ -2,10 +2,8 @@ package com.api.restassured;
 
 import com.api.common.CommonUtil;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
-import com.github.dzieciou.testing.curl.CurlLoggingRestAssuredConfigFactory;
 import com.google.inject.Inject;
 import io.restassured.RestAssured;
-import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -76,7 +74,7 @@ public class RequestUtil {
         if (isLoggingRequired)
             printReqLogsToReport("POST", url, headers, body);
         try {
-            response = request.given().headers(headers)
+            response = RestAssured.given().headers(headers)
                     .and()
                     .body(body)
                     .when()
@@ -102,7 +100,7 @@ public class RequestUtil {
         if (isLoggingRequired)
             printReqLogsToReport("POST", url, headers, body);
         try {
-            response = request.given().
+            response = RestAssured.given().
                     headers(headers)
                     .and()
                     .body(body.toString())
@@ -192,7 +190,7 @@ public class RequestUtil {
             printReqLogsToReport("POST", url, headers, body);
         }
         try {
-            response = request.given().auth().preemptive().basic(username, pwd)
+            response = RestAssured.given().auth().preemptive().basic(username, pwd)
                     .headers(headers)
                     .contentType(ContentType.JSON)
                     .body(body.toString())
@@ -220,19 +218,24 @@ public class RequestUtil {
 
     public void printReqLogsToReport(String httpMethod, String apiEndPoint, Map<String, Object> apiHeaders, Object apiRequest) {
 
-        commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>REQUEST METHOD </b>" + httpMethod));
-        commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>REQUEST URL</b> \n\n" + apiEndPoint));
-        commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>REQUEST HEADERS</b> \n\n" + CommonUtil.prettyPrintHeaders(apiHeaders)));
-        commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>REQUEST BODY</b>\n\n" + CommonUtil.getFormattedJSON(apiRequest.toString())));
+        if (httpMethod !=null)
+            commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>REQUEST METHOD </b>" + httpMethod));
+        if (apiEndPoint !=null)
+            commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>REQUEST URL</b> \n\n" + apiEndPoint));
+        if (apiHeaders !=null)
+            commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>REQUEST HEADERS</b> \n\n" + CommonUtil.prettyPrintHeaders(apiHeaders)));
+        if (apiRequest !=null)
+          commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>REQUEST BODY</b>\n\n" + CommonUtil.getFormattedJSON(apiRequest.toString())));
 
     }
 
     public void printResponseLogsToReport(Response apiResponse) {
 
-        commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>RESPONSE CODE</b> " + apiResponse.getStatusCode()));
-        commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>RESPONSE HEADERS</b> \n\n" + apiResponse.getHeaders()));
-        commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>RESPONSE BODY </b>\n\n" + apiResponse.asPrettyString()));
-
+        if (apiResponse !=null) {
+            commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>RESPONSE CODE</b> " + apiResponse.getStatusCode()));
+            commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>RESPONSE HEADERS</b> \n\n" + apiResponse.getHeaders()));
+            commonUtil.getCurrentTestInstance().info(CommonUtil.getStringForReport("<b>RESPONSE BODY </b>\n\n" + apiResponse.asPrettyString()));
+        }
     }
 
     public void printExceptionLogsToReport(Exception exception) {

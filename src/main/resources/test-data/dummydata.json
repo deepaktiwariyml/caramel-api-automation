@@ -3,10 +3,10 @@
     "description": "Create Offer as a Buyer",
     "initiatedBy": "buyer",
     "offerCount": 0,
-    "activeTxnCount": 1,
+    "activeTxnCount": 0,
     "prevTxnCount": 0,
-    "buyerState": "transport_done",
-    "sellerState": "none",
+    "buyerState": "identity_started",
+    "sellerState": "identity_started",
     "buyerEmail": "deepak.tiwari+testautomation@ymedialabs.com",
     "buyerPassword": "Testing@123",
     "sellerEmail": "deepak.tiwari+testautomation1@ymedialabs.com",
@@ -21,27 +21,6 @@
       "model" : "FF",
       "mileage" : "30155"
       }
-  },
-  {
-    "description": "Create Offer as a Seller",
-    "offerCount": 0,
-    "activeTxnCount": 1,
-    "prevTxnCount": 0,
-    "initiatedBy": "seller",
-    "buyerEmail": "deepak.tiwari+testautomation@ymedialabs.com",
-    "buyerPassword": "Testing@123",
-    "sellerEmail": "deepak.tiwari+testautomation1@ymedialabs.com",
-    "sellerPassword": "Testing@123",
-    "price": "31500",
-    "zipCode": "85054",
-    "requiredStatus": "none",
-    "isAuction": false,
-    "vehicleDetails": {
-      "color": "Silver",
-      "year" : 2018,
-      "make" : "Tesla",
-      "model" : "Model 3",
-      "mileage" : "84650"
-    }
   }
+
 ]

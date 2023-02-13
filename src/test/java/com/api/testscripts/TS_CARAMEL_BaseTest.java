@@ -54,9 +54,7 @@ public class TS_CARAMEL_BaseTest {
 
     @BeforeTest
     public void initializeTest() {
-
-
-        System.out.println();
+            logger.info("Before Test");
     }
 
 
