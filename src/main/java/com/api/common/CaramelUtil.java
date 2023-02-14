@@ -450,25 +450,30 @@ public class CaramelUtil {
                     case "seller":
                           JSONArray offersLinkedToDeal=offerObject.getJSONArray("offers");
                           String dealId=offerObject.getString("uid");
+
                           if (offersLinkedToDeal.length()==0){
-                              updateDealAskingPrice(token,dealId,0L,true);
-                              deleteDeal(token,dealId,true);
+                              this.getCurrentTestInstance().info(CommonUtil.getStringForReport("No Offer Linked to the Deal. Deal Id is <b>" + dealId + "</b>"));
+                              //updateDealAskingPrice(token,dealId,0L,true);
+                              //deleteDeal(token,dealId,true);
                              // this.getCurrentTestInstance().info(CommonUtil.getStringForReport("Deal Cancelled. Deal Id is <b>" + dealId + "</b>"));
                           }
                           else {
                               for (int i=0;i<offersLinkedToDeal.length();i++){
                                   JSONObject offer=offersLinkedToDeal.getJSONObject(i);
-                                  String buyerToken=signIn(offer.getString("buyerEmail"),APIConstants.universalPassword,false);
-                                  LinkedHashMap<String,Object> apiHeadersWithBuyerToken = getHeaders();
-                                  apiHeadersWithBuyerToken.put("Authorization",buyerToken);
-                                  JSONObject updateStatusParams=ApiParamGenerator.updateStatusParams(APIConstants.buyerDealRejected);
-                                  String updateOfferUrl= this.baseUrl.concat(CaramelApiEndPoints.CAR_PATCH_UPDATE_OFFER).replace(":offerId",offer.getString("uid"));
-                                  requestUtil.patchRequestWithHeadersAndJsonBody(updateOfferUrl,apiHeadersWithBuyerToken,updateStatusParams,true);
-                                  updateDealAskingPrice(token,dealId,0L,true);
-                                  deleteDeal(token,dealId,true);
+                                   txnId=acceptOfferAndCreateTxn(offer);
+                                   cancelTxnResponse=cancelTransaction(token,txnId,false);
+                                   this.getCurrentTestInstance().info(CommonUtil.getStringForReport("Txn Created and Cancelled. Transaction Id is <b>" + txnId + "</b>"));
+//                                  String buyerToken=signIn(offer.getString("buyerEmail"),APIConstants.universalPassword,false);
+//                                  LinkedHashMap<String,Object> apiHeadersWithBuyerToken = getHeaders();
+//                                  apiHeadersWithBuyerToken.put("Authorization",buyerToken);
+//                                  JSONObject updateStatusParams=ApiParamGenerator.updateStatusParams(APIConstants.buyerDealAcceptAck);
+//                                  String updateOfferUrl= this.baseUrl.concat(CaramelApiEndPoints.CAR_PATCH_UPDATE_OFFER).replace(":offerId",offer.getString("uid"));
+//                                  requestUtil.patchRequestWithHeadersAndJsonBody(updateOfferUrl,apiHeadersWithBuyerToken,updateStatusParams,true);
+//                                  updateDealAskingPrice(token,dealId,0L,true);
+//                                  deleteDeal(token,dealId,true);
 
                               }
-                              this.getCurrentTestInstance().info(CommonUtil.getStringForReport("Deal Cancelled. Deal Id is <b>" + dealId + "</b>"));
+                              //this.getCurrentTestInstance().info(CommonUtil.getStringForReport("Deal Cancelled. Deal Id is <b>" + dealId + "</b>"));
                           }
 
                 }
