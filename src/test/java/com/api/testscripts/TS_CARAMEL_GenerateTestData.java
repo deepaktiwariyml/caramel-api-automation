@@ -296,6 +296,7 @@ public class TS_CARAMEL_GenerateTestData extends TS_CARAMEL_BaseTest{
             int activeTxnCount = testData.getInt("activeTxnCount");
             if (activeTxnCount ==0){
                 this.currentTestCase.info(CommonUtil.getStringForReport("Not checking Txn State.Required Active Txn Count is 0."));
+                return;
             }
             if (testData.has("buyerState")) {
                 this.currentTestCase.info(CommonUtil.getStringForReport("Checking Transaction State for Buyer"));
@@ -307,7 +308,11 @@ public class TS_CARAMEL_GenerateTestData extends TS_CARAMEL_BaseTest{
                 caramelUtil.changeTxnStateForBuyer(token, activeTxnArr.getJSONObject(0).getString("transactionId"), testData.getString("buyerState"), true);
                 this.currentTestCase.info("Buyer State Changed to "+testData.getString("buyerState"));
             }
-            else if (testData.has("sellerState")){
+            else {
+                this.currentTestCase.info("No Test Data for Buyer Txn State");
+            }
+
+            if (testData.has("sellerState")){
                 this.currentTestCase.info(CommonUtil.getStringForReport("Checking Transaction State for Seller"));
                 String token=caramelUtil.signIn(testData.getString("sellerEmail"),testData.getString("sellerPassword"),false);
                 activeTxnArr = caramelUtil.getActiveTxnsForUser(token, false);
@@ -318,7 +323,7 @@ public class TS_CARAMEL_GenerateTestData extends TS_CARAMEL_BaseTest{
                 this.currentTestCase.info("Seller State Changed to "+testData.getString("sellerState"));
             }
             else {
-                this.currentTestCase.info("No Test Data for Buyer and seller Txn State");
+                this.currentTestCase.info("No Test Data for seller Txn State");
             }
 
 
