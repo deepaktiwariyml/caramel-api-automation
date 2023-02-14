@@ -2,6 +2,10 @@ package com.api.common;
 
 public class APIConstants {
 
+	public static final String URL_QA="https://qa.api.drivecaramel.com";
+	public static final String URL_STAGING="https://stg.api.drivecaramel.com";
+	public static final String URL_DEV="https://dev.api.drivecaramel.com";
+	public static final String URL_PROD="https://api.drivecaramel.com";
 	public static final String buyerInitiatedStr="buyerInitiated";
 	public static  final String sellerInitiatedStr="sellerInitiated";
 	public static final String sellerDealAcceptAck="seller_accepted";

@@ -7,7 +7,7 @@
     "prevTxnCount": 0,
     "buyerState": "identity_started",
     "sellerState": "identity_started",
-    "buyerEmail": "deepak.tiwari+testautomation@ymedialabs.com",
+    "buyerEmail": "test_user_automation_4+autoverify@ymedialabs.com",
     "buyerPassword": "Testing@123",
     "sellerEmail": "deepak.tiwari+testautomation1@ymedialabs.com",
     "sellerPassword": "Testing@123",
@@ -22,5 +22,4 @@
       "mileage" : "30155"
       }
   }
-
 ]

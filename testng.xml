@@ -9,8 +9,7 @@
     <test name="KP Sanity Test">
 
     <classes>
-          <class name="com.api.testscripts.TS_KP_BFF_SignOnTest"></class>
-          <class name="com.api.testscripts.TS_KP_BFF_CareGapTest"></class>
+          <class name="com.api.testscripts.TS_CARAMEL_GenerateTestData"></class>
     </classes>
 
     </test>

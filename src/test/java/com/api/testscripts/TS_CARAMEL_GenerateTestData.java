@@ -1,6 +1,12 @@
 package com.api.testscripts;
 
-public class TS_CARAMEL_GenerateTestData {
+import org.testng.annotations.Test;
+
+public class TS_CARAMEL_GenerateTestData extends TS_CARAMEL_BaseTest{
 
 
+    @Test
+    public void demoTest(){
+        System.out.println("Hello Testng");
+    }
 }

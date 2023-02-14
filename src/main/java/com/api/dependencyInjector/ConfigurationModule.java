@@ -4,6 +4,7 @@
 package com.api.dependencyInjector;
 
 
+import com.api.common.APIConstants;
 import com.api.common.CaramelUtil;
 import com.api.common.CommonUtil;
 import com.api.reporting.ExtentManager;
@@ -49,36 +50,62 @@ public class ConfigurationModule extends AbstractModule {
 
     private Map<String, String> getTestEnvironmentProperties() {
 
+        String envName=System.getProperty("envName");
+        test=extent.createTest("Setting Up Environment");
 
-        test=extent.createTest("Reading Test Data and Config file");
-        logger.info("Reading config file...");
         String runMode = null;
         Properties prop = new Properties();
         InputStream input = null;
         Map<String, String> propertiesMap = new HashMap<String, String>();
         try {
-            input = new FileInputStream(CommonUtil.getProjectDir() + "//config//config.properties");
-            // load a properties file
-            prop.load(input);
-            runMode = prop.getProperty("RunMode");
-            propertiesMap.put("RunMode", prop.getProperty("RunMode"));
-            switch (runMode.toLowerCase()) {
-                case "prod":
-                    propertiesMap.put("envUrl", prop.getProperty("HOST.CARAMEL.PROD"));
-                    break;
-                case "qa":
-                    propertiesMap.put("envUrl", prop.getProperty("HOST.CARAMEL.QA"));
-                    break;
-                case "stage":
-                    propertiesMap.put("envUrl", prop.getProperty("HOST.CARAMEL.STAGE"));
-                    //put preprod properties;
-                    break;
-                default:
-                    break;
-            }
-            // get the property value and print it out
+            if (envName == null || envName.equalsIgnoreCase("")) {
+                logger.info("Reading config file...");
+                test.info("No Environment passed from Command Line. So getting it from Properties file ");
+                input = new FileInputStream(CommonUtil.getProjectDir() + "//config//config.properties");
+                // load a properties file
+                prop.load(input);
+                runMode = prop.getProperty("RunMode");
+                propertiesMap.put("RunMode", prop.getProperty("RunMode"));
+                switch (runMode.toLowerCase()) {
+                    case "prod":
+                        propertiesMap.put("envUrl", prop.getProperty("HOST.CARAMEL.PROD"));
+                        break;
+                    case "qa":
+                        propertiesMap.put("envUrl", prop.getProperty("HOST.CARAMEL.QA"));
+                        break;
+                    case "stage":
+                        propertiesMap.put("envUrl", prop.getProperty("HOST.CARAMEL.STAGE"));
+                        //put preprod properties;
+                        break;
+                    default:
+                        break;
+                }
+                // get the property value and print it out
 
-            logger.info("Reading config file successful");
+                logger.info("Reading config file successful");
+            }
+            else {
+                test.info("Environment passed from Command Line." + envName);
+                runMode = envName;
+                switch (runMode.toLowerCase()) {
+                    case "prod":
+                        propertiesMap.put("envUrl", APIConstants.URL_PROD);
+                        break;
+                    case "qa":
+                        propertiesMap.put("envUrl", APIConstants.URL_QA);
+                        break;
+                    case "stage":
+                        propertiesMap.put("envUrl", APIConstants.URL_STAGING);
+                        //put preprod properties;
+                        break;
+                    case "dev":
+                        propertiesMap.put("envUrl", APIConstants.URL_DEV);
+                        //put preprod properties;
+                        break;
+                    default:
+                        break;
+                }
+            }
             System.out.println("*******************Test  Environment is " + runMode + "  *******************");
             extent.setSystemInfo("Test Environment",runMode);
             extent.setSystemInfo("Test Environment Url",propertiesMap.get("envUrl"));

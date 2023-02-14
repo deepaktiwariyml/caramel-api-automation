@@ -106,23 +106,11 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.dzieciou.testing</groupId>
-            <artifactId>curl-logger</artifactId>
-            <version>1.0.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.6.6</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.9</version>
-        </dependency>
-
     </dependencies>
+
+<!--    <properties>-->
+<!--        <app.env>${app.env}</app.env>-->
+<!--    </properties>-->
 
     <build>
         <plugins>
@@ -132,6 +120,21 @@
                 <configuration>
                     <source>11</source>
                     <target>11</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <environment>${envName}</environment>
+                    </systemPropertyVariables>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>
+                           testng.xml
+                        </suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
             </plugin>
         </plugins>

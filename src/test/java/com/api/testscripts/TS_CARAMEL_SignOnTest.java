@@ -220,6 +220,10 @@ public class TS_CARAMEL_SignOnTest extends TS_CARAMEL_BaseTest {
 
         JSONArray activeTxnArr = null;
         try {
+            int activeTxnCount = testData.getInt("activeTxnCount");
+            if (activeTxnCount ==0){
+                this.currentTestCase.info(CommonUtil.getStringForReport("Not checking Txn State.Required Active Txn Count is 0."));
+            }
             if (testData.has("buyerState")) {
                 this.currentTestCase.info(CommonUtil.getStringForReport("Checking Transaction State for Buyer"));
                 String token=caramelUtil.signIn(testData.getString("buyerEmail"),testData.getString("buyerPassword"),false);
