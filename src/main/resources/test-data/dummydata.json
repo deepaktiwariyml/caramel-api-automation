@@ -5,7 +5,7 @@
     "offerCount": 0,
     "activeTxnCount": 0,
     "prevTxnCount": 0,
-    "buyerState": "identity_started",
+    "buyerState": "identity_done",
     "sellerState": "identity_started",
     "buyerEmail": "deepak.tiwari+testautomation@ymedialabs.com",
     "buyerPassword": "Testing@123",
