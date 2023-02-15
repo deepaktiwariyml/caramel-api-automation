@@ -6,13 +6,13 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: Verify Test Data
 
 on:
  workflow_dispatch:
     inputs:
      test-environment:
-        description: 'the version of the browser to test'
+        description: 'select the test environment'
         type: choice
         options:
           - "qa"
