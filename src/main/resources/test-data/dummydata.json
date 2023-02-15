@@ -2,9 +2,9 @@
   {
     "description": "Create Offer as a Buyer",
     "initiatedBy": "buyer",
-    "offerCount": 1,
-    "activeTxnCount": 1,
-    "prevTxnCount": 1,
+    "offerCount": 0,
+    "activeTxnCount": 0,
+    "prevTxnCount": 0,
     "buyerState": "identity_started",
     "sellerState": "identity_started",
     "buyerEmail": "deepak.tiwari+testautomation@ymedialabs.com",
@@ -25,8 +25,8 @@
   {
     "description": "Create Offer as a Seller",
     "offerCount": 0,
-    "activeTxnCount": 1,
-    "prevTxnCount": 1,
+    "activeTxnCount": 0,
+    "prevTxnCount": 0,
     "initiatedBy": "seller",
     "buyerEmail": "test_user_automation_7+autoverify@ymedialabs.com",
     "buyerPassword": "Testing@123",
