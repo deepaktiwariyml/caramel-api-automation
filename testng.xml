@@ -6,7 +6,7 @@
         <listener class-name="com.api.reporting.ExtentTestNGITestListener" />
  </listeners>
 
-    <test name="KP Sanity Test">
+    <test name="Generate Test Data For Caramel Ui Automation">
 
     <classes>
           <class name="com.api.testscripts.TS_CARAMEL_GenerateTestData"></class>

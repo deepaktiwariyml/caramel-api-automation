@@ -42,7 +42,7 @@ public class TS_CARAMEL_GenerateTestData extends TS_CARAMEL_BaseTest{
     @Test(dataProvider = "getDummyTestData")
     public void checkUserOffers(JSONObject testData) throws Exception {
         JSONObject data = (JSONObject) testData;
-        currentTestCase.info(CommonUtil.getStringForReport("Data For this test"));
+        currentTestCase.info(CommonUtil.getStringForReport("Test Data For this testcase"));
         currentTestCase.info(CommonUtil.getStringForReport( CommonUtil.getFormattedJSON(testData.toString())));
         int offerCount = data.getInt("offerCount");
         String initiatedBy = data.getString("initiatedBy");
